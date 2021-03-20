@@ -905,6 +905,16 @@ void P_MovePsprites(player_t* player)
     pspdef_t* psp = player->psprites;
     int i;
 
+    fixed_t swing_x;
+    //fixed_t swing_y;
+
+    fixed_t offset_x = 0;
+    //fixed_t offset_y = 0;
+
+    fixed_t prevoffset_x = 0;
+    fixed_t x_angle;
+    fixed_t y_angle;
+
     // a null state means not active
     // drop tic count and possibly change state
     // a -1 tic count never changes
@@ -920,16 +930,6 @@ void P_MovePsprites(player_t* player)
     psp = &player->psprites[ps_weapon];
     psp->sx2 = FRACUNIT;
     psp->sy2 = WEAPONTOP;
-
-    fixed_t swing_x;
-    //fixed_t swing_y;
-
-    fixed_t offset_x = 0;
-    //fixed_t offset_y = 0;
-
-    fixed_t prevoffset_x = 0;
-    fixed_t x_angle;
-    fixed_t y_angle;
 
 
     if (psp->state)
@@ -963,7 +963,6 @@ void P_MovePsprites(player_t* player)
                     localbob = player->bob;
                 }
             }
-
             if (center_weapon == 1) { 
                 if (psp->state->action == A_WeaponReady) {
                     localbob = player->bob;

@@ -893,17 +893,18 @@ void P_SetupPsprites(player_t *player)
 // Called every tic by player thinking routine.
 //
 
-fixed_t localbob = 0;
-fixed_t angle = 0;
 fixed_t bobtime = 0;
-
-fixed_t change_radius = 2;
-fixed_t change_amplitude = 48;
 
 void P_MovePsprites(player_t* player)
 {
     pspdef_t* psp = player->psprites;
     int i;
+
+    fixed_t localbob = 0;
+    fixed_t angle = 0;
+
+    fixed_t change_radius = 2;
+    fixed_t change_amplitude = 48;
 
     fixed_t swing_x;
     //fixed_t swing_y;

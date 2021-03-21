@@ -894,27 +894,26 @@ void P_SetupPsprites(player_t *player)
 //
 
 fixed_t bobtime = 0;
+fixed_t localbob;
+fixed_t oldlocalbob;
 
 void P_MovePsprites(player_t* player)
 {
     pspdef_t* psp = player->psprites;
     int i;
 
-    fixed_t localbob = 0;
+    fixed_t x_angle;
+    fixed_t y_angle;
+
     fixed_t angle = 0;
 
     fixed_t change_radius = 2;
     fixed_t change_amplitude = 48;
 
-    fixed_t swing_x;
-    //fixed_t swing_y;
-
     fixed_t offset_x = 0;
-    //fixed_t offset_y = 0;
+    fixed_t prevswing_x = 0;
+    fixed_t swing_x = 0;
 
-    fixed_t prevoffset_x = 0;
-    fixed_t x_angle;
-    fixed_t y_angle;
 
     // a null state means not active
     // drop tic count and possibly change state
@@ -935,20 +934,22 @@ void P_MovePsprites(player_t* player)
 
     if (psp->state)
     {
+        oldlocalbob = localbob;
 
         if (!(psp->state->misc1 ||
             psp->state->action == A_Lower ||
             psp->state->action == A_Raise)) {
             if (center_weapon == 4) {
-                if ((player->mo->state == &states[S_PLAY] ||
+                if (((player->mo->state == &states[S_PLAY] ||
                     player->mo->state == &states[S_PLAY_RUN1] || 
                     player->mo->state == &states[S_PLAY_RUN2] || 
                     player->mo->state == &states[S_PLAY_RUN3] || 
                     player->mo->state == &states[S_PLAY_RUN4]) ||
-                    psp->state->action == A_Saw || psp->state->action == A_Punch || !(psp->state->action == A_ReFire)) {
+                    psp->state->action == A_Saw || psp->state->action == A_Punch) && !(psp->state->action == A_ReFire)) {
                     bobtime++;
                     bobtime = bobtime % (1024 * 35);
                     localbob = player->bob;
+                    localbob = oldlocalbob + (localbob - oldlocalbob) * 0.5;
                 }
                 angle = (128 * bobtime) & FINEMASK;
             }
@@ -974,7 +975,6 @@ void P_MovePsprites(player_t* player)
             x_angle = angle;
             y_angle = angle & (FINEANGLES / 2 - 1);
 			
-			
 			// Alpha style bobbing
             if (center_weapon != 0) {
                 if (bob_style) {
@@ -991,26 +991,16 @@ void P_MovePsprites(player_t* player)
         }
 
         if (weapon_swing) {
-            prevoffset_x = offset_x;
-
             offset_x = (int)(player->mo->angle - player->mo->oldangle) / FRACUNIT * 256;
-            //offset_y = 0;
+            prevswing_x = swing_x;
+            swing_x = prevswing_x + (offset_x - prevswing_x) * 0.75;
 
-            swing_x = prevoffset_x + (offset_x - prevoffset_x) * 0.75;
-            //swing_y = offset_y;
-
-            if (psp->state->action == A_WeaponReady) {
-                psp->sx2 += swing_x;
-                //psp->sy2 += swing_y;
-            }
-        } else {
-            swing_x = 0;
-            //swing_y = 0;
-        }
+            if (psp->state->action == A_WeaponReady) { psp->sx2 += swing_x; }
+        } else { swing_x = 0; }
 
         if (psp->state->action == A_Lower) {
             psp->sy2 = psp->sy;
-            if (weapon_swing) {
+            if (weapon_swing && player->health > 0) {
                 float lower_x = (float)(WEAPONBOTTOM - psp->sy) / (FRACUNIT * 256);
                 psp->sx2 = ((int)(cos(lower_x * 3.1415926535) * change_amplitude) - (change_amplitude / 3)) * FRACUNIT * change_radius;
             }

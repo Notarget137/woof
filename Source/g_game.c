@@ -1521,7 +1521,10 @@ static void G_DoSaveGame(void)
 
   // save lump name for current MUSINFO item
   CheckSaveGame(8);
-  memcpy(save_p, lumpinfo[musinfo.current_item].name, 8);
+  if (musinfo.current_item > 0)
+    memcpy(save_p, lumpinfo[musinfo.current_item].name, 8);
+  else
+    memset(save_p, 0, 8);
   save_p += 8;
 
   length = save_p - savebuffer;
@@ -2554,7 +2557,7 @@ byte *G_ReadOptions(byte *demo_p)
       // [FG] Boom did not prevent zombies from exiting levels
       comp[comp_zombie] = 1;
       // [FG] Boom never had the 3-key door bug
-      comp[comp_3keydoor] = 1;
+      comp_3keydoor = 1;
 
       monster_infighting = 1;           // killough 7/19/98
 

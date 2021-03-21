@@ -111,12 +111,15 @@ enum {
   comp_stairs,
   comp_infcheat,
   comp_zerotags,
-  // [FG] 3-key door works with only 2 keys
-  // http://prboom.sourceforge.net/mbf-bugs.html
-  comp_3keydoor,
-  comp_checkreload,
   COMP_TOTAL=32  // Some extra room for additional variables
 };
+
+// [FG] 3-key door works with only 2 keys
+// http://prboom.sourceforge.net/mbf-bugs.html
+extern int comp_3keydoor;
+
+// notarget137 A_CheckReload is not switching weapon
+extern int comp_checkreload;
 
 extern int comp[COMP_TOTAL], default_comp[COMP_TOTAL];
 
@@ -347,7 +350,6 @@ extern int doom_weapon_toggles;   // killough 10/98
 // [FG] centered weapon sprite
 extern int center_weapon;
 
-// notarget137 added bobstlye and weapon swinging
 extern int bob_style;
 
 extern int weapon_swing;

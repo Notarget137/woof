@@ -599,12 +599,12 @@ default_t defaults[] = {
     "Fix 3-key door works with only 2 keys"
   },
 
-  // notarget137 A_CheckReload is checked properly
+  // notarget137 A_CheckReload is not switching weapon
   {
     "comp_checkreload",
-    (config_t*)&default_comp[comp_checkreload], (config_t*)&comp[comp_checkreload],
+    (config_t*)&comp_checkreload, NULL,
     {0}, {0,1}, number, ss_comp, wad_yes,
-    "Fix SSG switching reloading with no ammo"
+    "Fix SSG reload check with no ammo"
   },
 
   // For key bindings, the values stored in the key_* variables       // phares

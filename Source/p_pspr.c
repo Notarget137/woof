@@ -949,6 +949,7 @@ void P_MovePsprites(player_t* player)
                     bobtime++;
                     bobtime = bobtime % (1024 * 35);
                     localbob = player->bob;
+                    // added bob interpolation for more smootheness
                     localbob = oldlocalbob + (localbob - oldlocalbob) * 0.5;
                 }
                 angle = (128 * bobtime) & FINEMASK;

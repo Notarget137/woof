@@ -2558,6 +2558,8 @@ byte *G_ReadOptions(byte *demo_p)
       comp[comp_zombie] = 1;
       // [FG] Boom never had the 3-key door bug
       comp_3keydoor = 1;
+      // notarget137 Boom did not switched SSG on no ammo on A_CheckReload state
+      comp_checkreload = 0;
 
       monster_infighting = 1;           // killough 7/19/98
 

@@ -118,6 +118,9 @@ enum {
 // http://prboom.sourceforge.net/mbf-bugs.html
 extern int comp_3keydoor;
 
+// notarget137 A_CheckReload is not switching weapon
+extern int comp_checkreload;
+
 extern int comp[COMP_TOTAL], default_comp[COMP_TOTAL];
 
 // -------------------------------------------

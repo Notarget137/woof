@@ -3389,7 +3389,7 @@ void M_DrawGeneral(void)
 #define C_X  284
 #define C_Y  32
 #define COMP_SPC 12
-#define C_NEXTPREV 131
+#define C_NEXTPREV 148
 
 setup_menu_t comp_settings1[], comp_settings2[];
 
@@ -3425,6 +3425,8 @@ enum
   // [FG] 3-key door works with only 2 keys
   // http://prboom.sourceforge.net/mbf-bugs.html
   compat_3keydoor,
+  // notarget137 A_CheckReload fix
+  compat_checkreload,
 };
 
 setup_menu_t comp_settings1[] =  // Compatibility Settings screen #1
@@ -3504,6 +3506,10 @@ setup_menu_t comp_settings2[] =  // Compatibility Settings screen #2
   // http://prboom.sourceforge.net/mbf-bugs.html
   {"Fix 3-key door works with only 2 keys", S_YESNO, m_null, C_X,
    C_Y + compat_3keydoor * COMP_SPC, {"comp_3keydoor"}},
+
+  // notarget137 A_CheckReload is not switching weapon
+  {"Fix SSG reload check with no ammo", S_YESNO, m_null, C_X,
+   C_Y + compat_checkreload * COMP_SPC, {"comp_checkreload"}},
 
   {"<- PREV", S_SKIP|S_PREV, m_null, KB_PREV, C_Y+C_NEXTPREV,{comp_settings1}},
 
